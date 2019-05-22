@@ -1,4 +1,15 @@
-FROM probo-lamp:ubuntu-base
+# Probo Ubuntu PHP Image
+#
+# This script builds the PHP containers for ProboCI. It is built off a foundation of tools built in
+# mbagnall/probo-lamp:ubuntu-base
+
+# Base this off Ubuntu 18.04
+FROM mbagnall/probo-lamp:ubuntu-base
+
+LABEL name="ProboCI PHP Image"
+LABEL description="Specific PHP image based on Ubuntu and a base set of tools."
+LABEL author="Michael R. Bagnall <mrbagnall@icloud.com>"
+LABEL vendor="ProboCI, LLC."
 
 WORKDIR /root
 
@@ -61,9 +72,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush
 
 # Download Drupal Console and install it in our standard path.
-RUN curl https://drupalconsole.com/installer -L -o /drupal.phar
-RUN mv /drupal.phar /bin/drupal
-RUN chmod 755 /bin/drupal
+RUN curl https://drupalconsole.com/installer -L -o /drupal.phar \
+ && mv /drupal.phar /bin/drupal \
+ && hmod 755 /bin/drupal
 
 # Install WP-CLI Wordpress command line tool, https://wp-cli.org/.
 RUN curl -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \

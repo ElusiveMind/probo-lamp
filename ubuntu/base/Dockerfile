@@ -1,20 +1,17 @@
-# Docker Image Builder v2
+# Probo Base Ubuntu Image
 #
-# These images are built using Dockerfile inheritance to build the images used for Probo.CI.
+# This is the foundation container for the Probo Ubuntu LAMP/PHP image. It contains the core components for
+# Probo. That means it is everything but the specific version of PHP used.
 #
-# Image: proboci/ubuntu
-# Tag: 18.04
-# 
-# The default Node.js version is 8.x in Ubuntu 18.04. 
-# The npm package is also required for Ubuntu 18.04.
+# Currently based off Ubuntu 18.04, ths includes all tools such as NodeJS, Perl, Java, Redis, Memcached,
+# MariaDB, PostgreSQL, SOLR and Varnish.
 #
-# Build the proboci/ubuntu:18.04 image:tag with the following command from inside the src/ubuntu/18.04 directory where the Dockerfile lives:
-# docker build -t proboci/ubuntu:18.04
+# PHP containers use this as their foundation.
 
-# Set our our meta data for this container.
-
+# Base this off Ubuntu 18.04
 FROM ubuntu:18.04
 
+# Set our our meta data for this container.
 LABEL name="Ubuntu 18.04 LTS Based ProboCI Image"
 LABEL description="Our base container for ProboCI Builds."
 LABEL author="Michael R. Bagnall <mrbagnall@icloud.com>"
@@ -95,8 +92,8 @@ RUN chmod 600 /root/.pgpass \
 # Start and configure our MySQL Server
 RUN apt-get update -y
 COPY files/mysql-setup.sql /mysql-setup.sql
-RUN apt-get install -y mariadb-server mariadb-client
-RUN service mysql start \
+RUN apt-get install -y mariadb-server mariadb-client \
+  && service mysql start \
   && mysql -uroot < /mysql-setup.sql
 
 # Install Ruby and Gem packages.
