@@ -72,9 +72,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush
 
 # Download Drupal Console and install it in our standard path.
-RUN curl https://drupalconsole.com/installer -L -o /drupal.phar \
- && mv /drupal.phar /bin/drupal \
- && hmod 755 /bin/drupal
+RUN curl https://drupalconsole.com/installer -L -o /drupal.phar
+RUN mv /drupal.phar /bin/drupal
+RUN chmod 755 /bin/drupal
 
 # Install WP-CLI Wordpress command line tool, https://wp-cli.org/.
 RUN curl -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
