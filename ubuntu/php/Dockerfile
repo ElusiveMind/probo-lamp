@@ -4,7 +4,7 @@
 # mbagnall/probo-lamp:ubuntu-base
 
 # Base this off Ubuntu 18.04
-FROM mbagnall/probo-lamp:ubuntu-base
+FROM mbagnall/probo-lamp:ubuntu
 
 LABEL name="ProboCI PHP Image"
 LABEL description="Specific PHP image based on Ubuntu and a base set of tools."
