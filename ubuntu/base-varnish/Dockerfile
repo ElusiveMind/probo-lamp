@@ -77,6 +77,9 @@ RUN npm install bower \
   the-a11y-machine \
   yarn \
   proboscis \
+  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis /usr/bin/penelope \
+  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-control /usr/bin/penelope-control \
+  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-format /usr/bin/penelope-format \
   && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Start and configure our PostgreSQL server
