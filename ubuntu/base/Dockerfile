@@ -50,8 +50,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
   && apt-get -y update \
   && apt-get -y install gcc g++ make \
-  && apt-get -y install nodejs \
-  && apt-get -y install npm
+  && apt-get -y install nodejs
 
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -81,9 +80,7 @@ RUN npm install -g proboscis
 RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
-  lighthouse \
-  the-a11y-machine
-
+  lighthouse 
 # Start and configure our PostgreSQL server
 COPY files/pgpass.txt /root/.pgpass
 RUN chmod 600 /root/.pgpass \
