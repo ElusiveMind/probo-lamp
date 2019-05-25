@@ -51,6 +51,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
   && apt-get -y update \
   && apt-get -y install gcc g++ make \
   && apt-get -y install nodejs
+  && apt-get -y install npm
 
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -73,7 +74,6 @@ RUN apt-get install -y \
   libmcrypt-dev \
   google-chrome-stable
 
-
 # Install Proboscis
 RUN npm install -g proboscis
 
@@ -82,8 +82,7 @@ RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
   lighthouse \
-  the-a11y-machine \
-  yarn
+  the-a11y-machine
 
 # Start and configure our PostgreSQL server
 COPY files/pgpass.txt /root/.pgpass
