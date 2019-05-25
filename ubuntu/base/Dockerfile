@@ -50,7 +50,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
     g++ \
     make
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get install -y nodejs
 
 # Add google-chrome-stable apt-key.
@@ -70,7 +70,7 @@ RUN apt-get install -y \
   google-chrome-stable
 
 # Install NPM Packages.
-RUN npm install bower \
+RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
   lighthouse \
@@ -78,9 +78,9 @@ RUN npm install bower \
   yarn \
   proboscis
 
-RUN ln -s /usr/local/lib/node_modules/proboscis/bin/proboscis /usr/bin/penelope \
-  && ln -s /usr/local/lib/node_modules/proboscis/bin/proboscis-control /usr/bin/penelope-control \
-  && ln -s /usr/local/lib/node_modules/proboscis/bin/proboscis-format /usr/bin/penelope-format \
+RUN ln -s /usr/lib/node_modules/proboscis/bin/proboscis /usr/bin/penelope \
+  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-control /usr/bin/penelope-control \
+  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-format /usr/bin/penelope-format \
   && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Start and configure our PostgreSQL server
