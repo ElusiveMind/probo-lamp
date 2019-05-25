@@ -75,11 +75,7 @@ RUN apt-get install -y \
 
 
 # Install Proboscis
-RUN npm install -g proboscis \
-  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis /usr/bin/proboscis \
-  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-control /usr/bin/proboscis-control \
-  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-format /usr/bin/proboscis-format \
-  && rm -rf /var/lib/apt/lists/* /tmp/*
+RUN npm install -g proboscis
 
 # Install NPM Packages.
 RUN npm install -g bower \
