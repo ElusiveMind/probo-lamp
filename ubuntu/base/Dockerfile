@@ -50,7 +50,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
   && apt-get -y update \
   && apt-get -y install gcc g++ make \
-  && apt-get -y install nodejs
+  && apt-get -y install nodejs \
   && apt-get -y install npm
 
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
