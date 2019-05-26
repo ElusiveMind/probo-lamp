@@ -45,13 +45,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
     zip \
     pkg-config \
     libgd-dev \
-    libmariadbd-dev \
-    gcc \
-    g++ \
-    make
+    libmariadbd-dev
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
+  && apt-get -y update \
+  && apt-get -y install gcc g++ make \
+  && apt-get -y install nodejs
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  && apt-get -y update \
+  && apt-get -y install yarn
 
 # Add google-chrome-stable apt-key.
 RUN curl -o /tmp/linux_signing_key.pub https://dl-ssl.google.com/linux/linux_signing_key.pub \
@@ -69,18 +73,14 @@ RUN apt-get install -y \
   libmcrypt-dev \
   google-chrome-stable
 
+# Install Proboscis
+RUN npm install -g proboscis
+
 # Install NPM Packages.
-RUN npm install bower \
+RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
-  lighthouse \
-  the-a11y-machine \
-  yarn \
-  proboscis \
-  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis /usr/bin/penelope \
-  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-control /usr/bin/penelope-control \
-  && ln -s /usr/lib/node_modules/proboscis/bin/proboscis-format /usr/bin/penelope-format \
-  && rm -rf /var/lib/apt/lists/* /tmp/*
+  lighthouse 
 
 # Start and configure our PostgreSQL server
 COPY files/pgpass.txt /root/.pgpass

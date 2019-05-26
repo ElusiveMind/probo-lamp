@@ -80,7 +80,8 @@ RUN npm install -g proboscis
 RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
-  lighthouse 
+  lighthouse
+
 # Start and configure our PostgreSQL server
 COPY files/pgpass.txt /root/.pgpass
 RUN chmod 600 /root/.pgpass \
