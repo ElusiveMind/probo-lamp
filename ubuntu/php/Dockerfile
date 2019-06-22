@@ -19,6 +19,30 @@ ENV TERM xterm
 RUN add-apt-repository ppa:ondrej/php \
   && apt update -y
 
+# Install PHP.
+RUN apt install -y \
+  php7.0 \
+  php7.0-bcmath \
+  php7.0-bz2 \
+  php7.0-cli \
+  php7.0-common \
+  php7.0-curl \
+  php7.0-dba \
+  php7.0-gd \
+  php7.0-json \
+  php7.0-ldap \
+  php7.0-mbstring \
+  php7.0-mcrypt \
+  php7.0-mysql \
+  php7.0-opcache \
+  php7.0-readline \
+  php7.0-soap \
+  php7.0-zip \
+  php7.0-pgsql \
+  libapache2-mod-php7.0 \
+  php7.0-dev \
+  php7.0-xml
+
 # Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
 RUN apt install -y \
   php7.1 \
@@ -33,6 +57,7 @@ RUN apt install -y \
   php7.1-ldap \
   php7.1-mbstring \
   php7.1-mysql \
+  php7.1-mcrypt \
   php7.1-opcache \
   php7.1-readline \
   php7.1-soap \
