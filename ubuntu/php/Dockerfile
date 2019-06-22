@@ -143,7 +143,7 @@ RUN apt install -y \
   php-memcached
 
 RUN pecl channel-update pecl.php.net && \
-  pecl install mcrypt-1.0. && \
+  pecl install mcrypt-1.0.2 && \
   pecl install redis
 
 RUN update-alternatives --set php /usr/bin/php7.2 && \
