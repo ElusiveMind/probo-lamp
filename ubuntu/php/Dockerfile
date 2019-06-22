@@ -148,8 +148,7 @@ RUN pecl channel-update pecl.php.net && \
 
 RUN update-alternatives --set php /usr/bin/php7.2 && \
   a2dismod php7.3 && \
-  a2enmod php7.2 && \
-  service apache2 restart
+  a2enmod php7.2 
 
 # Use or modified php.ini files into position to be used by PHP 7.2. This has the mcrypt
 # extension loaded as part of the ini file.
