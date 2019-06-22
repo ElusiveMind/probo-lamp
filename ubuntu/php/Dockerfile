@@ -19,7 +19,29 @@ ENV TERM xterm
 RUN add-apt-repository ppa:ondrej/php \
   && apt update -y
 
-# Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
+
+RUN apt install -y \
+  php7.2 \
+  php7.2-bcmath \
+  php7.2-bz2 \
+  php7.2-cli \
+  php7.2-common \
+  php7.2-curl \
+  php7.2-dba \
+  php7.2-gd \
+  php7.2-json \
+  php7.2-ldap \
+  php7.2-mbstring \
+  php7.2-mysql \
+  php7.2-opcache \
+  php7.2-readline \
+  php7.2-soap \
+  php7.2-zip \
+  php7.2-pgsql \
+  php7.2-dev \
+  php7.2-xml \
+  libapache2-mod-php7.2
+
 RUN apt install -y \
   php7.3 \
   php7.3-bcmath \
@@ -38,13 +60,15 @@ RUN apt install -y \
   php7.3-soap \
   php7.3-zip \
   php7.3-pgsql \
-  php-memcached \
-  libapache2-mod-php7.3 \
+  php7.3-dev \
+  php7.3-xml \
+  libapache2-mod-php7.3
+
+RUN apt install -y \
   php-redis \
   php-imagick \
   php-pear \
-  php7.3-dev \
-  php7.3-xml 
+  php-memcached
 
 RUN pecl channel-update pecl.php.net && \
   pecl install mcrypt-1.0.2
