@@ -19,6 +19,34 @@ ENV TERM xterm
 RUN add-apt-repository ppa:ondrej/php \
   && apt update -y
 
+# Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
+RUN apt install -y \
+  php5.6 \
+  php5.6-bcmath \
+  php5.6-bz2 \
+  php5.6-cli \
+  php5.6-common \
+  php5.6-curl \
+  php5.6-dba \
+  php5.6-gd \
+  php5.6-json \
+  php5.6-ldap \
+  php5.6-mbstring \
+  php5.6-mcrypt \
+  php5.6-mysql \
+  php5.6-opcache \
+  php5.6-readline \
+  php5.6-soap \
+  php5.6-zip \
+  php5.6-pgsql \
+  php-memcached \
+  libapache2-mod-php5.6 \
+  php-redis \
+  php-imagick \
+  php-pear \
+  php5.6-dev \
+  php5.6-xml
+
 # Install PHP.
 RUN apt install -y \
   php7.0 \
@@ -119,7 +147,8 @@ RUN apt install -y \
   php-memcached
 
 RUN pecl channel-update pecl.php.net && \
-  pecl install mcrypt-1.0.2
+  pecl install mcrypt-1.0.2 \
+  pecl install redis
 
 # Use or modified php.ini files into position to be used by PHP 7.2. This has the mcrypt
 # extension loaded as part of the ini file.
