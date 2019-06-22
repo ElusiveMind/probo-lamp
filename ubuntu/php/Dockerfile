@@ -4,7 +4,7 @@
 # mbagnall/probo-lamp:ubuntu-base
 
 # Base this off Ubuntu 18.04
-FROM mbagnall/probo-lamp:ubuntu
+FROM mbagnall/probo-lamp:ubuntu-php
 
 LABEL name="ProboCI PHP Image"
 LABEL description="Specific PHP image based on Ubuntu and a base set of tools."
@@ -39,13 +39,9 @@ RUN apt install -y \
   php5.6-soap \
   php5.6-zip \
   php5.6-pgsql \
-  php-memcached \
-  libapache2-mod-php5.6 \
-  php-redis \
-  php-imagick \
-  php-pear \
   php5.6-dev \
-  php5.6-xml
+  php5.6-xml \
+  libapache2-mod-php5.6
 
 # Install PHP.
 RUN apt install -y \
@@ -67,9 +63,9 @@ RUN apt install -y \
   php7.0-soap \
   php7.0-zip \
   php7.0-pgsql \
-  libapache2-mod-php7.0 \
   php7.0-dev \
-  php7.0-xml
+  php7.0-xml \
+  libapache2-mod-php7.0
 
 # Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
 RUN apt install -y \
@@ -147,16 +143,13 @@ RUN apt install -y \
   php-memcached
 
 RUN pecl channel-update pecl.php.net && \
-  pecl install mcrypt-1.0.2 \
+  pecl install mcrypt-1.0. && \
   pecl install redis
 
 # Use or modified php.ini files into position to be used by PHP 7.2. This has the mcrypt
 # extension loaded as part of the ini file.
 COPY files/php-apache.ini /etc/php/7.3/apache/php.ini
 COPY files/php-cli.ini /etc/php/7.3/cli/php.ini
-
-# Install the PhpRedis class
-RUN pecl install redis
 
 # Install Composer and Drush
 RUN curl -sS https://getcomposer.org/installer | php -- \

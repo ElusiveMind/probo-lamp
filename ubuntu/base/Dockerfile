@@ -140,23 +140,23 @@ RUN mkdir /root/.ssh \
   && echo "StrictHostKeyChecking no" >> /root/.ssh/config
 
 # Final Perl modules that do not have apt installers.
-RUN cpan -i GD::Image && \
-  cpan -i ExtUtils::PkgConfig && \
-  cpan -i Crypt::Blowfish && \
-  cpan -i HTTP::Request && \
-  cpan -i Test::More && \
-  cpan -i Image::Resize && \
-  cpan -i CGI && \
-  cpan -i CGI::Carp && \
-  cpan -i YAML && \
-  cpan -T Class::HPLOO && \
-  cpan -T HDB && \
-  cpan -T DBD && \
-  cpan -i DBI && \
-  cpan -i Net::HTTP && \
-  cpan -i URI && \
-  cpan -i Net:SMTPS && \
-  cpan -i JSON && \
-  cpan -i File::MimeInfo && \
-  cpan -i HTTP::Request::AsCGI \ 
-  cpan -i LWP::Protocol::https
+#RUN cpan -i GD::Image && \
+#  cpan -i ExtUtils::PkgConfig && \
+#  cpan -i Crypt::Blowfish && \
+#  cpan -i HTTP::Request && \
+#  cpan -i Test::More && \
+#  cpan -i Image::Resize && \
+#  cpan -i CGI && \
+#  cpan -i CGI::Carp && \
+#  cpan -i YAML && \
+#  cpan -T Class::HPLOO && \
+#  cpan -T HDB && \
+#  cpan -T DBD && \
+#  cpan -i DBI && \
+#  cpan -i Net::HTTP && \
+#  cpan -i URI && \
+#  cpan -i Net:SMTPS && \
+#  cpan -i JSON && \
+#  cpan -i File::MimeInfo && \
+#  cpan -i HTTP::Request::AsCGI \ 
+#  cpan -i LWP::Protocol::https
