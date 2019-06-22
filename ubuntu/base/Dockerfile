@@ -7,7 +7,7 @@
 # MariaDB, PostgreSQL, SOLR and Varnish.
 #
 # PHP containers use this as their foundation.
-
+#
 # Base this off Ubuntu 18.04
 FROM ubuntu:18.04
 
@@ -45,13 +45,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
     zip \
     pkg-config \
     libgd-dev \
-    libmariadbd-dev \
-    gcc \
-    g++ \
-    make
+    libmariadbd-dev 
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
+  && apt-get -y update \
+  && apt-get -y install gcc g++ make \
+  && apt-get -y install nodejs
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  && apt-get -y update \
+  && apt-get -y install yarn
 
 # Add google-chrome-stable apt-key.
 RUN curl -o /tmp/linux_signing_key.pub https://dl-ssl.google.com/linux/linux_signing_key.pub \
@@ -69,15 +73,14 @@ RUN apt-get install -y \
   libmcrypt-dev \
   google-chrome-stable
 
+# Install Proboscis
+RUN npm install -g proboscis
+
 # Install NPM Packages.
-RUN npm install bower \
+RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
-  lighthouse \
-  the-a11y-machine \
-  yarn \
-  proboscis \
-  && rm -rf /var/lib/apt/lists/* /tmp/*
+  lighthouse
 
 # Start and configure our PostgreSQL server
 COPY files/pgpass.txt /root/.pgpass
@@ -117,18 +120,6 @@ RUN wget http://archive.apache.org/dist/lucene/solr/6.6.5/solr-6.6.5.tgz \
   && mv search_api_solr /opt/solr/. \
   && sudo -u solr -- /opt/solr/bin/solr create -c drupal8 -d "/opt/solr/search_api_solr/solr-conf/6.x" \
   && service solr stop
-
-# Install varnish with default config.
-COPY files/varnishcache_varnish41.list /etc/apt/sources.list.d/varnishcache_varnish41.list
-RUN apt-get install -y \
-  && apt-get install -y debian-archive-keyring \
-  && curl -L https://packagecloud.io/varnishcache/varnish41/gpgkey | sudo apt-key add - \
-  && apt-get update -y \
-  && apt-get install varnish/xenial
-#COPY files/wordpress-default-4.vcl /etc/varnish/wordpress-default-4.vcl
-COPY files/drupal-default-4.vcl /etc/varnish/default.vcl
-COPY files/varnish /etc/default/varnish
-COPY files/secret /etc/varnish/secret
 
 # Create .ssh dir and add SSH config file.
 # TODO: There's got to be a better way to setup the /root/.ssh/config file. Using old method for now.
