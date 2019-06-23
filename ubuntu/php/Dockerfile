@@ -147,13 +147,12 @@ RUN pecl channel-update pecl.php.net && \
   pecl install redis
 
 RUN update-alternatives --set php /usr/bin/php7.2 && \
+  a2dismod php5.6 && \
+  a2dismod php7.0 && \
+  a2dismod php7.1 && \
   a2dismod php7.3 && \
-  a2enmod php7.2 
-
-# Use or modified php.ini files into position to be used by PHP 7.2. This has the mcrypt
-# extension loaded as part of the ini file.
-COPY files/php-apache.ini /etc/php/7.3/apache/php.ini
-COPY files/php-cli.ini /etc/php/7.3/cli/php.ini
+  a2enmod php7.2 && \
+  service apache2 restart
 
 # Install Composer and Drush
 RUN curl -sS https://getcomposer.org/installer | php -- \
