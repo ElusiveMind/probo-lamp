@@ -45,7 +45,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
     zip \
     pkg-config \
     libgd-dev \
-    libmariadbd-dev 
+    libmariadbd-dev \
+    cpanminus
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
   && apt-get -y update \

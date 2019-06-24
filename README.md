@@ -85,6 +85,7 @@ The following packages and tools have been installed to all Probo Images to allo
 
 - bundler
 - composer
+- cpanminus (cpanm)
 - curl
 - drupalconsole
 - drush
