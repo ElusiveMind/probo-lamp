@@ -7,7 +7,7 @@
 FROM mbagnall/probo-lamp:ubuntu-php
 
 LABEL name="ProboCI PHP Image"
-LABEL description="Specific PHP image based on Ubuntu and a base set of tools."
+LABEL description="Unified ProboCI Image. All versions of PHP available via yaml switch."
 LABEL author="Michael R. Bagnall <mrbagnall@icloud.com>"
 LABEL vendor="ProboCI, LLC."
 
