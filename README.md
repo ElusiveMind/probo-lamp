@@ -4,12 +4,6 @@ This repository is used to store Linux and PHP specific versions and configurati
 
 The images built from this repository are developed specifically to be used as Docker images that run the builds for [Probo.CI](https://probo.ci).
 
-Support Linux distributions include Ubuntu 18.04 LTS and CentOS 7 are located in their respective version directories.
-
-Note that the base containers contain the standard components for the images. The containers specific to their PHP versions are located in the respective versions in the `php` folder located inside the distribution folder.
-
-Varnish containers are wired differently from a networking perspective and currently require their own container configured as such.
-
 The Probo Ubuntu Docker images and tags built are located on the Docker Hub at: [https://hub.docker.com/u/mbagnall/probo-lamp](https://hub.docker.com/u/mbagnall/probo-lamp).
 
 ## Apache Version
@@ -87,6 +81,7 @@ The following packages and tools have been installed to all Probo Images to allo
 
 - bundler
 - composer
+- cpanminus (cpanm)
 - curl
 - drupalconsole
 - drush
@@ -113,23 +108,3 @@ The following packages and tools have been installed to all Probo Images to allo
 - yarn
 - zip
 
-# PERL Applications Now Supported. Installed Packages.
-- CGI
-- Carp
-- DBI
-- Net-SMTPS
-- URI
-- GD
-- Crypt-SSLeay
-- HTTP-Request-AsCGI
-- URI
-- DBD-MySQL
-- Net-HTTP
-- Switch
-- File-MimeInfo
-- DBD-Pg
-- JSON.noarch
-- Blowfish
-- HTTP::Request
-- Test::More
-- Image::Resize
