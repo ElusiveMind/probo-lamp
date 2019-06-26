@@ -124,11 +124,11 @@ RUN wget http://archive.apache.org/dist/lucene/solr/6.6.5/solr-6.6.5.tgz \
 
 # Install varnish with default config.
 COPY files/varnishcache_varnish41.list /etc/apt/sources.list.d/varnishcache_varnish41.list
-RUN apt install -y \
-  && apt install -y debian-archive-keyring \
+RUN apt-get install -y \
+  && apt-get install -y debian-archive-keyring \
   && curl -L https://packagecloud.io/varnishcache/varnish41/gpgkey | sudo apt-key add - \
   && apt-get update -y \
-  && apt install varnish/xenial
+  && apt-get install varnish/xenial
 #COPY files/wordpress-default-4.vcl /etc/varnish/wordpress-default-4.vcl
 COPY files/drupal-default-4.vcl /etc/varnish/default.vcl
 COPY files/varnish /etc/default/varnish

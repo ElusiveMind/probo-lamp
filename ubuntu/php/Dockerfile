@@ -4,10 +4,10 @@
 # mbagnall/probo-lamp:ubuntu-base
 
 # Base this off Ubuntu 18.04
-FROM mbagnall/probo-lamp:ubuntu-php
+FROM mbagnall/probo-lamp:linux
 
 LABEL name="ProboCI PHP Image"
-LABEL description="Unified ProboCI Image. All versions of PHP available via yaml switch."
+LABEL description="Unified ProboCI Image. All versions of PHP available via yaml configuration."
 LABEL author="Michael R. Bagnall <mrbagnall@icloud.com>"
 LABEL vendor="ProboCI, LLC."
 
@@ -20,7 +20,7 @@ RUN add-apt-repository ppa:ondrej/php \
   && apt update -y
 
 # Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
-RUN apt install -y \
+RUN apt-get install -y \
   php5.6 \
   php5.6-bcmath \
   php5.6-bz2 \
@@ -44,7 +44,7 @@ RUN apt install -y \
   libapache2-mod-php5.6
 
 # Install PHP.
-RUN apt install -y \
+RUN apt-get install -y \
   php7.0 \
   php7.0-bcmath \
   php7.0-bz2 \
@@ -68,7 +68,7 @@ RUN apt install -y \
   libapache2-mod-php7.0
 
 # Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
-RUN apt install -y \
+RUN apt-get install -y \
   php7.1 \
   php7.1-bcmath \
   php7.1-bz2 \
@@ -92,7 +92,7 @@ RUN apt install -y \
   php7.1-xml \
   libapache2-mod-php7.1
 
-RUN apt install -y \
+RUN apt-get install -y \
   php7.2 \
   php7.2-bcmath \
   php7.2-bz2 \
@@ -114,7 +114,7 @@ RUN apt install -y \
   php7.2-xml \
   libapache2-mod-php7.2
 
-RUN apt install -y \
+RUN apt-get install -y \
   php7.3 \
   php7.3-bcmath \
   php7.3-bz2 \
@@ -136,7 +136,7 @@ RUN apt install -y \
   php7.3-xml \
   libapache2-mod-php7.3
 
-RUN apt install -y \
+RUN apt-get install -y \
   php-redis \
   php-imagick \
   php-pear \
