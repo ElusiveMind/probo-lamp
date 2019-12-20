@@ -137,22 +137,45 @@ RUN apt-get install -y \
   libapache2-mod-php7.3
 
 RUN apt-get install -y \
-  php-redis \
-  php-imagick \
-  php-pear \
-  php-memcached
-
-RUN pecl channel-update pecl.php.net && \
-  pecl install mcrypt-1.0.2 && \
-  pecl install redis
+  php7.4 \
+  php7.4-bcmath \
+  php7.4-bz2 \
+  php7.4-cli \
+  php7.4-common \
+  php7.4-curl \
+  php7.4-dba \
+  php7.4-gd \
+  php7.4-json \
+  php7.4-ldap \
+  php7.4-mbstring \
+  php7.4-mysql \
+  php7.4-opcache \
+  php7.4-readline \
+  php7.4-soap \
+  php7.4-zip \
+  php7.4-pgsql \
+  php7.4-dev \
+  php7.4-xml \
+  libapache2-mod-php7.4
 
 RUN update-alternatives --set php /usr/bin/php7.2 && \
   a2dismod php5.6 && \
   a2dismod php7.0 && \
   a2dismod php7.1 && \
   a2dismod php7.3 && \
+  a2dismod php7.4 && \
   a2enmod php7.2 && \
   service apache2 restart
+
+RUN apt-get install -y \
+  php-redis \
+  php-imagick \
+  php-pear \
+  php-memcached
+
+RUN pecl channel-update pecl.php.net && \
+  pecl install redis && \
+  pear install PHP_CodeSniffer
 
 # Install Composer and Drush
 RUN curl -sS https://getcomposer.org/installer | php -- \
