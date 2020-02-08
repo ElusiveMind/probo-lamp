@@ -4,7 +4,7 @@
 # Probo. That means it is everything but the specific version of PHP used.
 #
 # Currently based off Ubuntu 18.04, ths includes all tools such as NodeJS, Perl, Java, Redis, Memcached,
-# MariaDB, PostgreSQL, SOLR and Varnish.
+# MySQL, PostgreSQL, SOLR and Varnish.
 #
 # PHP containers use this as their foundation.
 #
@@ -98,7 +98,7 @@ RUN chmod 600 /root/.pgpass \
 # Start and configure our MySQL Server
 RUN apt-get update -y
 COPY files/mysql-setup.sql /mysql-setup.sql
-RUN apt-get install -y mariadb-server mariadb-client \
+RUN apt-get install -y mysql-server mysql-client \
   && service mysql start \
   && mysql -uroot < /mysql-setup.sql
 
