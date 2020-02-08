@@ -157,7 +157,6 @@ RUN apt-get install -y \
   php7.4-dev \
   php7.4-xml \
   libapache2-mod-php7.4
-<<<<<<< HEAD
 
 RUN apt-get install -y \
   php-redis \
@@ -168,8 +167,6 @@ RUN apt-get install -y \
 RUN pecl channel-update pecl.php.net && \
   pecl install mcrypt-1.0.2 && \
   pecl install redis
-=======
->>>>>>> d1e6e2c5309cbc33b5fd272027f7b4ccad7817da
 
 RUN update-alternatives --set php /usr/bin/php7.2 && \
   a2dismod php5.6 && \
