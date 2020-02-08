@@ -14,7 +14,7 @@ FROM ubuntu:18.04
 # Set our our meta data for this container.
 LABEL name="Ubuntu 18.04 LTS Based ProboCI Image"
 LABEL description="Our base container for ProboCI Builds."
-LABEL author="Michael R. Bagnall <mrbagnall@icloud.com>"
+LABEL author="Michael R. Bagnall <mbagnall@zivtech.com>"
 LABEL vendor="ProboCI, LLC."
 
 WORKDIR /root
@@ -46,7 +46,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-util
     pkg-config \
     libgd-dev \
     libmariadbd-dev \
-    cpanminus
+    cpanminus \
+    dialog \
+    whiptail
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
   && apt-get -y update \
@@ -128,7 +130,7 @@ RUN apt-get install -y \
   && apt-get install -y debian-archive-keyring \
   && curl -L https://packagecloud.io/varnishcache/varnish41/gpgkey | sudo apt-key add - \
   && apt-get update -y \
-  && apt-get install varnish/xenial
+  && apt-get install -y varnish/xenial
 #COPY files/wordpress-default-4.vcl /etc/varnish/wordpress-default-4.vcl
 COPY files/drupal-default-4.vcl /etc/varnish/default.vcl
 COPY files/varnish /etc/default/varnish
