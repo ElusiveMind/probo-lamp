@@ -158,16 +158,6 @@ RUN apt-get install -y \
   php7.4-xml \
   libapache2-mod-php7.4
 
-RUN apt-get install -y \
-  php-redis \
-  php-imagick \
-  php-pear \
-  php-memcached
-
-RUN pecl channel-update pecl.php.net && \
-  pecl install mcrypt-1.0.2 && \
-  pecl install redis
-
 RUN update-alternatives --set php /usr/bin/php7.2 && \
   a2dismod php5.6 && \
   a2dismod php7.0 && \
@@ -176,6 +166,9 @@ RUN update-alternatives --set php /usr/bin/php7.2 && \
   a2dismod php7.4 && \
   a2enmod php7.2 && \
   service apache2 restart
+
+RUN pecl channel-update pecl.php.net && \
+  pecl install mcrypt-1.0.2
 
 RUN apt-get install -y \
   php-redis \
@@ -193,17 +186,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --filename=composer \
     --version=1.8.5 && \
     composer \
-    --working-dir=/usr/local/src/ \
-    global \
-    require \
-    drush/drush:8.* && \
-    ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush8 && \
-    composer \
     --working-dir=/usr/src/ \
     global \
     require \
-    drush/drush:9.* && \
-    ln -s /usr/src/vendor/bin/drush /usr/local/bin/drush9 && \
+    drush/drush:8.* && \
+    ln -s /usr/src/vendor/bin/drush /usr/local/bin/drush8 && \
+    composer \
+    --working-dir=/usr/local/src/ \
+    global \
+    require \
+    drush/drush:10.* && \
+    ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush10 && \
     ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush
 
 # Download Drupal Console and install it in our standard path.
