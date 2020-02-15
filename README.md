@@ -7,6 +7,7 @@ The images built from this repository are developed specifically to be used as D
 The Probo Ubuntu Docker images and tags built are located on the Docker Hub at: [https://hub.docker.com/u/mbagnall/probo-lamp](https://hub.docker.com/u/mbagnall/probo-lamp).
 
 ## Apache Version
+
 - Apache 2.4.29 (Default)
   - Apache 2.4.29 Modules Enabled
     - rewrite
@@ -23,9 +24,11 @@ The Probo Ubuntu Docker images and tags built are located on the Docker Hub at: 
     - proxy-http
 
 ## MySQL Version (MariaDB)
+
 - MariaDB 10.1.38
 
 ## PHP Versions Supported
+
 PHP is installed from the `ondrej/php` PPA repository, https://launchpad.net/~ondrej/+archive/ubuntu/php.
 
 - PHP 5.6 (Deprecated)
@@ -58,18 +61,22 @@ PHP is installed from the `ondrej/php` PPA repository, https://launchpad.net/~on
     - php-pear
     - mcrypt-1.0.1
 - PHP 7.3
-	- same as PHP 7.2 except for mcrypt-1.0.2
+  - same as PHP 7.2 except for mcrypt-1.0.2
 
 ## Node.JS Version
+
 - Node 10.x
 
 ## PostgreSQL Version
+
 - PostgreSQL 10.8
 
 ## Ruby Version
+
 - Ruby 2.x (Default)
 
 ## Solr Version
+
 - Apache Solr 6.x (Default)
   - Search API Solr module installed for Drupal 7 and Drupal 8.
   - Default Solr cores available for Drupal 7 and Drupal 8.
@@ -77,6 +84,7 @@ PHP is installed from the `ondrej/php` PPA repository, https://launchpad.net/~on
     - drupal8
 
 ## Additional Packages and Tools
+
 The following packages and tools have been installed to all Probo Images to allow for additional functionality on images for building and testing web applications out of the box.
 
 - bundler
@@ -107,4 +115,3 @@ The following packages and tools have been installed to all Probo Images to allo
 - wp-cli
 - yarn
 - zip
-
