@@ -184,7 +184,7 @@ RUN pecl channel-update pecl.php.net && \
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin \
     --filename=composer \
-    --version=1.8.5 && \
+    --version=1.10.6 && \
     composer \
     --working-dir=/usr/src/ \
     global \
@@ -199,10 +199,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush10 && \
     ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush
 
-# Download Drupal Console and install it in our standard path.
-RUN curl https://drupalconsole.com/installer -L -o /drupal.phar
-RUN mv /drupal.phar /bin/drupal
-RUN chmod 755 /bin/drupal
+# Install Terminus Pantheon command line tool, https://pantheon.io/docs/terminus.
+RUN curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar \
+  && php installer.phar install
 
 # Install WP-CLI Wordpress command line tool, https://wp-cli.org/.
 RUN curl -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
