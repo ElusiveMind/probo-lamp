@@ -17,7 +17,8 @@ ENV TERM xterm
 
 # Add ondrej/php PPA repository for PHP.
 RUN add-apt-repository ppa:ondrej/php \
-  && apt update -y
+  && apt-get update -y \
+  && apt-get install dialog
 
 # Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
 RUN apt-get install -y \
