@@ -9,7 +9,7 @@
 # PHP containers use this as their foundation.
 #
 # Base this off Ubuntu 18.04
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Set our our meta data for this container.
 LABEL name="Ubuntu 18.04 LTS Based ProboCI Image"
@@ -21,39 +21,33 @@ WORKDIR /root
 
 ENV TERM xterm
 
+RUN apt-get -y update
+RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certificates sudo apt-utils
+RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
 # Update apt repos and install base apt packages. Also update to version 10 of NodeJS as 
 # support for NodeJS version 8 expires at the end of 2019
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils \
-    apt-transport-https \
-    build-essential \
-    ca-certificates \
-    curl \
-    git \
-    libnss3 \
-    lsb-release \
-    memcached \
-    nano \
-    netcat-openbsd \
-    ntp \
-    openjdk-8-jre \
-    redis-server \
-    sendmail \
-    software-properties-common \
-    sudo \
-    vim \
-    wget \
-    zip \
-    pkg-config \
-    libgd-dev \
-    libmariadbd-dev \
-    cpanminus \
-    dialog \
-    whiptail
-
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash \
-  && apt-get -y update \
-  && apt-get -y install gcc g++ make \
-  && apt-get -y install nodejs
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  build-essential \
+  git \
+  gnupg \
+  libnss3 \
+  memcached \
+  nano \
+  netcat-openbsd \
+  nodejs \
+  ntp \
+  openjdk-8-jre \
+  redis-server \
+  sendmail \
+  software-properties-common \
+  sudo \
+  vim \
+  wget \
+  zip \
+  gcc \
+  g++ \
+  make
 
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -77,13 +71,14 @@ RUN apt-get install -y \
   google-chrome-stable
 
 # Install Proboscis
-RUN npm install -g proboscis
+RUN npm install -g proboscis --unsafe
 
 # Install NPM Packages.
 RUN npm install -g bower \
   grunt-cli \
   gulp-cli \
-  lighthouse
+  lighthouse \
+  --no-document
 
 # Start and configure our PostgreSQL server
 COPY files/pgpass.txt /root/.pgpass
@@ -105,9 +100,10 @@ RUN apt-get install -y mysql-server mysql-client \
 # Install Ruby and Gem packages.
 RUN apt-get install -y libreadline-dev zlib1g-dev ruby-dev libsqlite3-dev \
   && gem install rails \
-  && gem install mailcatcher \
-  && gem install compass \
-  && gem install bundler
+    mailcatcher \
+    compass \
+    bundler \
+    --no-document
 
 # Install solr with default search cores.
 RUN wget http://archive.apache.org/dist/lucene/solr/6.6.5/solr-6.6.5.tgz \
@@ -126,13 +122,17 @@ RUN wget http://archive.apache.org/dist/lucene/solr/6.6.5/solr-6.6.5.tgz \
 
 # Install varnish with default config.
 COPY files/varnishcache_varnish41.list /etc/apt/sources.list.d/varnishcache_varnish41.list
-RUN apt-get install -y \
-  && apt-get install -y debian-archive-keyring \
-  && curl -L https://packagecloud.io/varnishcache/varnish41/gpgkey | sudo apt-key add - \
+RUN curl -L https://packagecloud.io/varnishcache/varnish41/gpgkey | apt-key add -
+RUN apt-add-repository universe \
   && apt-get update -y \
-  && apt-get install -y varnish/xenial
-#COPY files/wordpress-default-4.vcl /etc/varnish/wordpress-default-4.vcl
-COPY files/drupal-default-4.vcl /etc/varnish/default.vcl
+  && apt-get install -y debian-archive-keyring \
+  && apt-get update -y \
+  && apt-get install -y varnish
+
+# Install varnish default configs.
+COPY files/wordpress-default-4.vcl /etc/varnish/wordpress-default.vcl
+COPY files/drupal-default-4.vcl /etc/varnish/drupal-default.vcl
+COPY files/default-4.vcl /etc/varnish/default.vcl
 COPY files/varnish /etc/default/varnish
 COPY files/secret /etc/varnish/secret
 
