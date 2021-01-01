@@ -3,16 +3,16 @@
 # This is the foundation container for the Probo Ubuntu LAMP/PHP image. It contains the core components for
 # Probo. That means it is everything but the specific version of PHP used.
 #
-# Currently based off Ubuntu 18.04, ths includes all tools such as NodeJS, Perl, Java, Redis, Memcached,
+# Currently based off Ubuntu 20.04, ths includes all tools such as NodeJS, Perl, Java, Redis, Memcached,
 # MySQL, PostgreSQL, SOLR and Varnish.
 #
 # PHP containers use this as their foundation.
 #
-# Base this off Ubuntu 18.04
+# Base this off Ubuntu 20.04
 FROM ubuntu:20.04
 
 # Set our our meta data for this container.
-LABEL name="Ubuntu 18.04 LTS Based ProboCI Image"
+LABEL name="Ubuntu 20.04 LTS Based ProboCI Image"
 LABEL description="Our base container for ProboCI Builds."
 LABEL author="Michael R. Bagnall <mbagnall@zivtech.com>"
 LABEL vendor="ProboCI, LLC."
@@ -23,7 +23,8 @@ ENV TERM xterm
 
 RUN apt-get -y update
 RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certificates sudo apt-utils
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 
 # Update apt repos and install base apt packages. Also update to version 10 of NodeJS as 
 # support for NodeJS version 8 expires at the end of 2019
@@ -47,7 +48,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   zip \
   gcc \
   g++ \
-  make
+  make \
+  cpanminus
 
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -67,7 +69,6 @@ RUN apt-get install -y \
   postgresql-contrib \
   apache2 \
   apache2-utils \
-  libmcrypt-dev \
   google-chrome-stable
 
 # Install Proboscis
@@ -106,18 +107,19 @@ RUN apt-get install -y libreadline-dev zlib1g-dev ruby-dev libsqlite3-dev \
     --no-document
 
 # Install solr with default search cores.
-RUN wget http://archive.apache.org/dist/lucene/solr/6.6.5/solr-6.6.5.tgz \
-  && tar xzf solr-6.6.5.tgz solr-6.6.5/bin/install_solr_service.sh --strip-components=2 \
-  && ./install_solr_service.sh solr-6.6.5.tgz  \
-  && wget https://ftp.drupal.org/files/projects/search_api_solr-7.x-1.14.tar.gz \
-  && tar xzf search_api_solr-7.x-1.14.tar.gz \
+RUN wget http://archive.apache.org/dist/lucene/solr/7.7.3/solr-7.7.3.tgz \
+  && tar xzf solr-7.7.3.tgz solr-7.7.3/bin/install_solr_service.sh --strip-components=2 \
+  && ./install_solr_service.sh solr-7.7.3.tgz  \
+  && wget https://ftp.drupal.org/files/projects/search_api_solr-7.x-1.15.tar.gz \
+  && tar xzf search_api_solr-7.x-1.15.tar.gz \
   && mv search_api_solr /opt/solr/. \
-  && sudo -u solr -- /opt/solr/bin/solr create -c drupal7 -d "/opt/solr/search_api_solr/solr-conf/6.x" \
-  && wget https://ftp.drupal.org/files/projects/search_api_solr-8.x-2.7.tar.gz \
+  && sudo -u solr -- /opt/solr/bin/solr create -c drupal7 -d "/opt/solr/search_api_solr/solr-conf/7.x" \
+  && wget https://ftp.drupal.org/files/projects/search_api_solr-4.1.4.tar.gz \
   && rm -rf /opt/solr/search_api_solr \
-  && tar xzf search_api_solr-8.x-2.7.tar.gz \
+  && tar xzf search_api_solr-4.1.4.tar.gz \
   && mv search_api_solr /opt/solr/. \
-  && sudo -u solr -- /opt/solr/bin/solr create -c drupal8 -d "/opt/solr/search_api_solr/solr-conf/6.x" \
+  && sudo -u solr -- /opt/solr/bin/solr create -c drupal8 -d "/opt/solr/search_api_solr/jump-start/solr7/config-set" \
+  && sudo -u solr -- /opt/solr/bin/solr create -c drupal9 -d "/opt/solr/search_api_solr/jump-start/solr7/config-set" \
   && service solr stop
 
 # Install varnish with default config.

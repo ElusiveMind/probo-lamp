@@ -3,12 +3,12 @@
 # This script builds the PHP containers for ProboCI. It is built off a foundation of tools built in
 # mbagnall/probo-lamp:ubuntu-base
 
-# Base this off Ubuntu 18.04
+# Base this off Ubuntu 20.04
 FROM mbagnall/probo-lamp:linux
 
 LABEL name="ProboCI PHP Image"
 LABEL description="Unified ProboCI Image. All versions of PHP available via yaml configuration."
-LABEL author="Michael R. Bagnall <mrbagnall@icloud.com>"
+LABEL author="Michael R. Bagnall <mbagbnall@zivtech.com>"
 LABEL vendor="ProboCI, LLC."
 
 WORKDIR /root
@@ -159,17 +159,36 @@ RUN apt-get install -y \
   php7.4-xml \
   libapache2-mod-php7.4
 
-RUN update-alternatives --set php /usr/bin/php7.2 && \
+RUN apt-get install -y \
+  php8.0 \
+  php8.0-bcmath \
+  php8.0-bz2 \
+  php8.0-cli \
+  php8.0-common \
+  php8.0-curl \
+  php8.0-dba \
+  php8.0-gd \
+  php8.0-ldap \
+  php8.0-mbstring \
+  php8.0-mysql \
+  php8.0-opcache \
+  php8.0-readline \
+  php8.0-soap \
+  php8.0-zip \
+  php8.0-pgsql \
+  php8.0-dev \
+  php8.0-xml \
+  libapache2-mod-php8.0
+
+RUN update-alternatives --set php /usr/bin/php7.3 && \
   a2dismod php5.6 && \
   a2dismod php7.0 && \
   a2dismod php7.1 && \
+  a2dismod php7.2 && \
   a2dismod php7.3 && \
   a2dismod php7.4 && \
-  a2enmod php7.2 && \
+  a2dismod php8.0 && \
   service apache2 restart
-
-RUN pecl channel-update pecl.php.net && \
-  pecl install mcrypt-1.0.2
 
 RUN apt-get install -y \
   php-redis \
@@ -181,25 +200,6 @@ RUN pecl channel-update pecl.php.net && \
   pecl install redis && \
   pear install PHP_CodeSniffer
 
-# Install Composer and Drush
-RUN curl -sS https://getcomposer.org/installer | php -- \
-    --install-dir=/usr/local/bin \
-    --filename=composer \
-    --version=1.10.6 && \
-    composer \
-    --working-dir=/usr/src/ \
-    global \
-    require \
-    drush/drush:8.* && \
-    ln -s /usr/src/vendor/bin/drush /usr/local/bin/drush8 && \
-    composer \
-    --working-dir=/usr/local/src/ \
-    global \
-    require \
-    drush/drush:10.* && \
-    ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush10 && \
-    ln -s /usr/local/src/vendor/bin/drush /usr/local/bin/drush
-
 # Install Terminus Pantheon command line tool, https://pantheon.io/docs/terminus.
 RUN curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar \
   && php installer.phar install
@@ -210,6 +210,7 @@ RUN curl -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-
   && mv /tmp/wp-cli.phar /usr/local/bin/wp
 
 # Configure Apache. Be sure to enable apache mods or you're going to have a bad time.
+COPY files/ssl_environment_variable.conf /etc/apache2/conf-available/ssl_environment_variable.conf
 RUN rm -rf /var/www/html \
   && a2enmod rewrite \
   && a2enmod actions \
