@@ -201,8 +201,10 @@ RUN pecl channel-update pecl.php.net && \
   pear install PHP_CodeSniffer
 
 # Install Terminus Pantheon command line tool, https://pantheon.io/docs/terminus.
-RUN curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar \
-  && php installer.phar install
+RUN mkdir ~/terminus && cd ~/terminus \
+  && curl -L https://github.com/pantheon-systems/terminus/releases/download/$(curl --silent "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" | perl -nle'print $& while m{"tag_name": "\K.*?(?=")}g')/terminus.phar --output terminus \
+  && chmod +x terminus \
+  && ln -s ~/terminus/terminus /usr/local/bin/terminus
 
 # Install WP-CLI Wordpress command line tool, https://wp-cli.org/.
 RUN curl -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
