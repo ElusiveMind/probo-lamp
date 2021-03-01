@@ -49,7 +49,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   gcc \
   g++ \
   make \
-  cpanminus
+  cpanminus \
+  libncurses5-dev
 
 RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -91,14 +92,13 @@ RUN chmod 600 /root/.pgpass \
   && chmod 600 /root/.pgpass \
   && service postgresql stop
 
-# Start and configure our MySQL Server
+# This will roll out MySQL 5.7
 RUN apt-get update -y
 RUN apt -y install libaio1 libtinfo5 psmisc libmecab2 libnuma1
 RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-common_5.7.32-1ubuntu18.04_amd64.deb
 RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-community-server_5.7.32-1ubuntu18.04_amd64.deb
 RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-client_5.7.32-1ubuntu18.04_amd64.deb
 RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-community-client_5.7.32-1ubuntu18.04_amd64.deb
-
 RUN dpkg -i mysql-common_5.7.32-1ubuntu18.04_amd64.deb
 RUN dpkg -i mysql-community-client_5.7.32-1ubuntu18.04_amd64.deb
 RUN dpkg -i mysql-client_5.7.32-1ubuntu18.04_amd64.deb
