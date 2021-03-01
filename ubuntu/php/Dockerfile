@@ -212,7 +212,7 @@ RUN curl -o /tmp/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-
   && mv /tmp/wp-cli.phar /usr/local/bin/wp
 
 # Configure Apache. Be sure to enable apache mods or you're going to have a bad time.
-COPY files/ssl_environment_variable.conf /etc/apache2/conf-available/ssl_environment_variable.conf
+COPY files/ssl_environment_variable.conf /etc/apache2/conf-enabled/ssl_environment_variable.conf
 RUN rm -rf /var/www/html \
   && a2enmod rewrite \
   && a2enmod actions \
@@ -228,3 +228,25 @@ RUN rm -rf /var/www/html \
   && a2enmod proxy_http \
   && a2enmod speling
 COPY files/apache-default-host.conf /etc/apache2/conf-enabled/apache-default-host.conf
+
+# Install composer and drush.
+RUN mkdir /usr/local/src/drush9
+RUN mkdir /usr/local/src/drush8
+RUN mkdir /usr/local/src/drush-launcher
+RUN curl -sS https://getcomposer.org/installer | php -- \
+  --install-dir=/usr/local/bin \
+  --filename=composer \
+  && composer \
+  --working-dir=/usr/local/src/drush9 \
+  global \
+  require \
+  drush/drush:9.* \
+  && composer \
+  --working-dir=/usr/local/src/drush8 \
+  global \
+  require \
+  drush/drush:8.* \
+  && mkdir /etc/drush \
+  && mkdir /etc/drush/conf.d
+RUN wget -O /usr/local/src/drush-launcher/drush https://github.com/drush-ops/drush-launcher/releases/latest/download/drush.phar
+RUN chmod +x /usr/local/src/drush-launcher/drush

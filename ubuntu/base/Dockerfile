@@ -93,10 +93,16 @@ RUN chmod 600 /root/.pgpass \
 
 # Start and configure our MySQL Server
 RUN apt-get update -y
-COPY files/mysql-setup.sql /mysql-setup.sql
-RUN apt-get install -y mysql-server mysql-client \
-  && service mysql start \
-  && mysql -uroot < /mysql-setup.sql
+RUN apt -y install libaio1 libtinfo5 psmisc libmecab2 libnuma1
+RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-common_5.7.32-1ubuntu18.04_amd64.deb
+RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-community-server_5.7.32-1ubuntu18.04_amd64.deb
+RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-client_5.7.32-1ubuntu18.04_amd64.deb
+RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-community-client_5.7.32-1ubuntu18.04_amd64.deb
+
+RUN dpkg -i mysql-common_5.7.32-1ubuntu18.04_amd64.deb
+RUN dpkg -i mysql-community-client_5.7.32-1ubuntu18.04_amd64.deb
+RUN dpkg -i mysql-client_5.7.32-1ubuntu18.04_amd64.deb
+RUN dpkg -i mysql-community-server_5.7.32-1ubuntu18.04_amd64.deb
 
 # Install Ruby and Gem packages.
 RUN apt-get install -y libreadline-dev zlib1g-dev ruby-dev libsqlite3-dev \
