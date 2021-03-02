@@ -20,6 +20,14 @@ RUN add-apt-repository ppa:ondrej/php \
   && apt-get update -y \
   && apt-get install dialog
 
+# Start and configure our MySQL Server
+ RUN apt-get update -y
+ COPY files/mysql-setup.sql /mysql-setup.sql
+ COPY files/probo.cnf .my.cnf
+ RUN apt-get install -y mysql-server mysql-client \
+   && service mysql start \
+   && mysql -uroot < /mysql-setup.sql
+
 # Install PHP, PHP packages, Postgresql, and Apache2 apt packages.
 RUN apt-get install -y \
   php5.6 \

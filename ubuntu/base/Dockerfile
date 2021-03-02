@@ -92,18 +92,6 @@ RUN chmod 600 /root/.pgpass \
   && chmod 600 /root/.pgpass \
   && service postgresql stop
 
-# This will roll out MySQL 5.7
-RUN apt-get update -y
-RUN apt -y install libaio1 libtinfo5 psmisc libmecab2 libnuma1
-RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-common_5.7.32-1ubuntu18.04_amd64.deb
-RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-community-server_5.7.32-1ubuntu18.04_amd64.deb
-RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-client_5.7.32-1ubuntu18.04_amd64.deb
-RUN wget https://downloads.mysql.com/archives/get/p/23/file/mysql-community-client_5.7.32-1ubuntu18.04_amd64.deb
-RUN dpkg -i mysql-common_5.7.32-1ubuntu18.04_amd64.deb
-RUN dpkg -i mysql-community-client_5.7.32-1ubuntu18.04_amd64.deb
-RUN dpkg -i mysql-client_5.7.32-1ubuntu18.04_amd64.deb
-RUN dpkg -i mysql-community-server_5.7.32-1ubuntu18.04_amd64.deb
-
 # Install Ruby and Gem packages.
 RUN apt-get install -y libreadline-dev zlib1g-dev ruby-dev libsqlite3-dev \
   && gem install rails \
